@@ -16,12 +16,14 @@ function AccountOperations() {
     loan: currentLoan,
     loanPurpose: currentPurpose,
     balance,
+    isLoading,
   } = useSelector((state) => state.account);
 
   function handleDeposit() {
     if (!depositAmount) return;
-    dispatch(deposit(depositAmount));
+    dispatch(deposit(depositAmount, currency));
     setDepositAmount("");
+    setCurrency("");
   }
 
   function handleWithdrawal() {
@@ -39,6 +41,13 @@ function AccountOperations() {
 
   function handlePayLoan() {
     dispatch(payLoan());
+  }
+
+  function currencySymbol() {
+    if (depositAmount === 0 || depositAmount === "") return "";
+    if (currency === "USD") return "$";
+    if (currency === "EUR") return "€";
+    if (currency === "GBP") return "£";
   }
 
   return (
@@ -60,8 +69,18 @@ function AccountOperations() {
             <option value="EUR">Euro</option>
             <option value="GBP">British Pound</option>
           </select>
-
-          <button onClick={handleDeposit}>Deposit {depositAmount}</button>
+          {isLoading ? (
+            <span>Loading...</span>
+          ) : (
+            <button
+              disabled={isLoading || depositAmount === 0}
+              onClick={handleDeposit}
+            >
+              {`Deposit ${currencySymbol()}${
+                depositAmount > 0 ? depositAmount : ""
+              }`}
+            </button>
+          )}
         </div>
 
         <div>
