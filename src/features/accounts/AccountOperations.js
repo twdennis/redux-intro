@@ -23,7 +23,7 @@ function AccountOperations() {
     if (!depositAmount) return;
     dispatch(deposit(depositAmount, currency));
     setDepositAmount("");
-    setCurrency("");
+    setCurrency("USD");
   }
 
   function handleWithdrawal() {
@@ -91,7 +91,7 @@ function AccountOperations() {
             onChange={(e) => setWithdrawalAmount(+e.target.value)}
           />
           <button onClick={handleWithdrawal}>
-            Withdraw {withdrawalAmount}
+            Withdraw ${withdrawalAmount}
           </button>
         </div>
 
